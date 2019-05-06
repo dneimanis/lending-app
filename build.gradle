@@ -1,9 +1,18 @@
+import com.github.spotbugs.SpotBugsTask
+
 plugins {
 	id 'org.springframework.boot' version '2.1.4.RELEASE'
 	id 'java'
+	id 'checkstyle'
+	id "com.github.spotbugs" version "1.6.9"
 }
 
 apply plugin: 'io.spring.dependency-management'
+
+checkstyle {
+	toolVersion = '8.17'
+	maxWarnings = 0
+}
 
 group = 'io.codelex'
 version = '0.0.1-SNAPSHOT'
@@ -14,6 +23,16 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
 }
+
+tasks.withType(SpotBugsTask) {
+	reports {
+		xml.enabled = false
+		html.enabled = true
+	}
+}
+
